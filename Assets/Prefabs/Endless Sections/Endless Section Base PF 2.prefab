@@ -5354,6 +5354,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7779186755787990094}
+  - component: {fileID: -9100448293620026262}
   m_Layer: 0
   m_Name: Endless Section Base PF 2
   m_TagString: Untagged
@@ -5381,6 +5382,18 @@ Transform:
   - {fileID: 115195596236592474}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-9100448293620026262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4119966046709916676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 135566691768abb4185e29ab9e6781eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4448055964003322103
 GameObject:
   m_ObjectHideFlags: 0
