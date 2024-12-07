@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class CarHandler : MonoBehaviour
 
     [SerializeField]
     Transform gameModel;
+    [SerializeField]
+    MeshRenderer carMeshRender;
+
     //Max values
     float maxForwardVelocity = 30;
     float maxSteerVelocity = 2;
@@ -20,6 +24,10 @@ public class CarHandler : MonoBehaviour
 
 
     Vector2 input = Vector2.zero;
+
+    int _EmissionColor = Shader.PropertyToID("_EmissionColor");
+    Color emissiveColor = Color.white;
+    float emissiveColorMultiplier = 0f;
     void Start()
     {
         
@@ -28,6 +36,16 @@ public class CarHandler : MonoBehaviour
     void Update()
     {
         gameModel.transform.rotation = Quaternion.Euler(0, rb.velocity.x * 5, 0);
+
+        if (carMeshRender != null)
+        {
+            float desiredCarEmissiveColorMultiplier = 0f;
+            if (input.y < 0)
+                desiredCarEmissiveColorMultiplier = 4.0f;
+
+            emissiveColorMultiplier = Mathf.Lerp(emissiveColorMultiplier, desiredCarEmissiveColorMultiplier, Time.deltaTime * 6);
+            carMeshRender.material.SetColor(_EmissionColor, emissiveColor * emissiveColorMultiplier);
+        }
     }
 
     private void FixedUpdate()
