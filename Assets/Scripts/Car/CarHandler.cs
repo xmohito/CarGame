@@ -13,6 +13,9 @@ public class CarHandler : MonoBehaviour
     [SerializeField]
     MeshRenderer carMeshRender;
 
+    [SerializeField]
+    ExplodeHandler explodeHandler;
+
     //Max values
     float maxForwardVelocity = 30;
     float maxSteerVelocity = 2;
@@ -28,6 +31,8 @@ public class CarHandler : MonoBehaviour
     int _EmissionColor = Shader.PropertyToID("_EmissionColor");
     Color emissiveColor = Color.white;
     float emissiveColorMultiplier = 0f;
+
+    bool isExploded = false;
     void Start()
     {
         
@@ -35,7 +40,11 @@ public class CarHandler : MonoBehaviour
 
     void Update()
     {
-        gameModel.transform.rotation = Quaternion.Euler(0, rb.velocity.x * 5, 0);
+
+        if(isExploded)
+            return;
+            
+        gameModel.transform.rotation = Quaternion.Euler(0, rb.velocity.x * 5, 0); 
 
         if (carMeshRender != null)
         {
@@ -50,6 +59,16 @@ public class CarHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        if(isExploded)
+        {
+            rb.drag = rb.velocity.z * 0.1f;
+            rb.drag = Mathf.Clamp(rb.drag, 1.5f, 10);
+
+            rb.MovePosition(Vector3.Lerp(transform.position, new Vector3(0, 0, transform.position.z), Time.fixedDeltaTime * 0.5f));
+
+            return;
+        }
         if (input.y > 0)
             Accelerate();
         else
@@ -104,5 +123,17 @@ public class CarHandler : MonoBehaviour
     {
         inputVector.Normalize();
         input = inputVector;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        Debug.Log($"Hit {collision.gameObject.name}");
+        
+      Vector3 velocity = rb.velocity;
+      explodeHandler.Explode(velocity * 45);
+
+      isExploded = true;
+
     }
 }
