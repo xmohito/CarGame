@@ -43,7 +43,7 @@ public class CarHandler : MonoBehaviour
 
         if(isExploded)
             return;
-            
+
         gameModel.transform.rotation = Quaternion.Euler(0, rb.velocity.x * 5, 0); 
 
         if (carMeshRender != null)
@@ -125,6 +125,25 @@ public class CarHandler : MonoBehaviour
         input = inputVector;
     }
 
+    IEnumerator SlowDownTImeCO()
+    {
+        while (Time.timeScale > 0.2f)
+        {
+            Time.timeScale -= Time.deltaTime * 2;;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        while(Time.timeScale <= 1.0f)
+        {
+            Time.timeScale += Time.deltaTime;
+            yield return null;
+        }
+
+        Time.timeScale = 1.0f;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
 
@@ -134,6 +153,7 @@ public class CarHandler : MonoBehaviour
       explodeHandler.Explode(velocity * 45);
 
       isExploded = true;
+      StartCoroutine(SlowDownTImeCO());
 
     }
 }
