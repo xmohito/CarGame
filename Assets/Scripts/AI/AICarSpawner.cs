@@ -16,7 +16,10 @@ public class AICarSpawner : MonoBehaviour
     float timeLastCarSpawned = 0;
     WaitForSeconds wait = new WaitForSeconds(0.5f);
     
+    [SerializeField]
+    LayerMask otherCarsLayerMask;
 
+    Collider[] overlappedCheckCollider = new Collider[1];
 
     void Start()
     {
@@ -74,6 +77,11 @@ public class AICarSpawner : MonoBehaviour
         }
 
         Vector3 spawnPosition = new Vector3(0, 0, playerCarTransform.position.z + 100);
+
+        if(Physics.OverlapBoxNonAlloc(spawnPosition, Vector3.one * 2, overlappedCheckCollider, Quaternion.identity, otherCarsLayerMask) > 0)
+        {
+            return; 
+        }
 
         carToSpawn.transform.position = spawnPosition;
         carToSpawn.SetActive(true);

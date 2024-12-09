@@ -16,11 +16,9 @@ public class CarHandler : MonoBehaviour
     [SerializeField]
     ExplodeHandler explodeHandler;
 
-    //Max values
     float maxForwardVelocity = 30;
     float maxSteerVelocity = 2;
 
-    //Multipliers
     float accelerationMultiplier = 3;
     float breakaMultiplier = 15;
     float steeringMultiplier = 5;
@@ -33,9 +31,10 @@ public class CarHandler : MonoBehaviour
     float emissiveColorMultiplier = 0f;
 
     bool isExploded = false;
+    bool isPlayer = true;  
     void Start()
     {
-        
+        isPlayer = gameObject.CompareTag("Player");
     }
 
     void Update()
@@ -146,9 +145,19 @@ public class CarHandler : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if(!isPlayer)
+        {
+            if(collision.transform.root.CompareTag("Untagged"))
+            {
+                return;
+            }
 
-        Debug.Log($"Hit {collision.gameObject.name}");
-        
+            if(collision.transform.root.CompareTag("CarAI"))
+            {
+                return;
+            }
+
+        }
       Vector3 velocity = rb.velocity;
       explodeHandler.Explode(velocity * 45);
 
