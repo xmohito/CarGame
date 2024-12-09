@@ -21,6 +21,7 @@ public class AICarSpawner : MonoBehaviour
 
     Collider[] overlappedCheckCollider = new Collider[1];
 
+
     void Start()
     {
         playerCarTransform = GameObject.FindGameObjectWithTag("Player").transform;

@@ -7,9 +7,14 @@ public class InputHandler : MonoBehaviour
 {
     [SerializeField]
     CarHandler carHandler;
-    void Start()
+    
+    private void Awake()
     {
-        
+        if(!CompareTag("Player"))
+        {
+            Destroy(this);
+            return;
+        }
     }
 
     void Update()

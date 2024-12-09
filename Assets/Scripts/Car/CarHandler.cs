@@ -124,6 +124,11 @@ public class CarHandler : MonoBehaviour
         input = inputVector;
     }
 
+    public void SetMaxSpeed(float newMaxSpeed)
+    {
+        maxForwardVelocity = newMaxSpeed;
+    }
+
     IEnumerator SlowDownTImeCO()
     {
         while (Time.timeScale > 0.2f)
